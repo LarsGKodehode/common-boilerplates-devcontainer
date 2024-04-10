@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+name: devcontainer
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Containerfile
+    hostname: developer
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../:/workspace:cached
+      - ./tool-configurations/prompt-config.toml:/root/.config/starship.toml:ro

@@ -1,0 +1,15 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+	"$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+	"name": "devcontainer",
+	"dockerComposeFile": "compose.yaml",
+	"service": "devcontainer",
+	"workspaceFolder": "/workspace"
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [5000, 5001],
+	// "portsAttributes": {
+	//		"5001": {
+	//			"protocol": "https"
+	//		}
+	// }
+}
