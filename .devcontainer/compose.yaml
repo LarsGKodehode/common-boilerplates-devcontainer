@@ -7,10 +7,10 @@ services:
     build:
       context: .
       dockerfile: Containerfile
-    hostname: developer
+    hostname: dev
     working_dir: /workspace
     stdin_open: true
     tty: true
     volumes:
       - ../:/workspace:cached
-      - ./tool-configurations/prompt-config.toml:/root/.config/starship.toml:ro
+      - ./tool-configurations/prompt-config.toml:/home/developer/.config/starship.toml

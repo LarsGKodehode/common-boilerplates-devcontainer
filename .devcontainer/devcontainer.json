@@ -3,8 +3,7 @@
 	"$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
 	"name": "devcontainer",
 	"dockerComposeFile": "compose.yaml",
-	"service": "devcontainer",
-	"workspaceFolder": "/workspace"
+	"service": "devcontainer"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [5000, 5001],
 	// "portsAttributes": {

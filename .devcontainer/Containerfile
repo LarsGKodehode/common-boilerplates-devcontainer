@@ -1,34 +1,52 @@
-FROM debian:bookworm-slim
+# ======================
+# = Basic dependencies =
+# ======================
+FROM debian:bookworm-slim as base
 
-# Add some essentials
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+# Add essentials
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
     curl \
-    bash-completion && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    bash-completion \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Configure Git
 RUN git config --global --add safe.directory /workspace
 
+# Create the container user
+RUN adduser --disabled-password --gecos '' developer
+
+# =====================================================
+# = Tooling for the resulting development environment =
+# =====================================================
+FROM base as development-environment
+
 # Setup bash completion
-RUN cat <<'EOF' >> /root/.bashrc
+RUN cat <<'EOF' >> /etc/bash.bashrc
 
 # Source bash completion
 . /usr/share/bash-completion/bash_completion
 EOF
 
 # Setup a slightly nicer shell prompt
-RUN curl -sS https://starship.rs/install.sh -o /tmp/install-starship.sh && \
-    sh /tmp/install-starship.sh -y && \
-    rm /tmp/install-starship.sh
-
-# Configure prompt
-ENV STARSHIP_CONFIG="/root/.config/starship.toml"
-RUN cat <<'EOF' >> /root/.bashrc
+RUN curl -sS https://starship.rs/install.sh -o /tmp/install-starship.sh \
+    && sh /tmp/install-starship.sh -y \
+    && rm /tmp/install-starship.sh \
+    && cat <<'EOF' >> /etc/bash.bashrc
 
 # Initialize the starship prompt
+export STARSHIP_CONFIG="/home/developer/.config/starship.toml"
 eval "$(starship init bash)"
 EOF
+
+# ========================================
+# = Dependencies specific to the project =
+# ========================================
+FROM development-environment as project-dependencies
+WORKDIR /workspace
+
+# Configure user
+USER developer
