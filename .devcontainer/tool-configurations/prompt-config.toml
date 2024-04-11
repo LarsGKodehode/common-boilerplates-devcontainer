@@ -1,7 +1,13 @@
 # The prompt format
-format = """$directory$git_branch$git_status λ """
+format = """$hostname$directory$git_branch$git_status λ """
 add_newline = false
 command_timeout = 1000
+
+# Shows the hostname
+[hostname]
+ssh_only = false
+format = '[$hostname](bold yellow) '
+disabled = false
 
 # Shows current directory
 [directory]
